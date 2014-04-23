@@ -1,0 +1,82 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 15/04/2014, 15:50:18
+    Author     : ayres
+*/
+
+body{border: 0;font-family: Arial;size: 12px;}
+a{color: #000;text-decoration: none;}
+a:hover{text-decoration:underline}
+menu{display: block;margin-top:80px;margin-bottom:10px}
+footer{height:50px;background:#eee;text-align:center;padding:20px;margin-top:50px}
+section{margin-top:50px;background:#eee;border-radius:20px;padding:30px}
+h1{margin-top:0}
+fieldset{border-radius:10px;margin-bottom:15px}
+
+#center{margin: 0 auto 0 auto;width: 980px;}
+#logo{height: 100px;width:200px}
+#nome_empresa{position:relative;top:-80px;left:220px;margin-bottom:-100px;height:0}
+#nome_empresa label{font-size:26px;font-weight:bold}
+#id_usuario{float:right;margin-bottom:-50px}
+#id_usuario a{color:blue}
+
+
+/* ----- LOGIN ----- */
+#header_login img{width:150px}
+#header_login div{position:relative;top:-100px;font-size:45px;left:170px;font-weight:bold}
+#session_login{background:#FFF}
+#form_login{margin:100px 0 225px 320px;border:1px solid #aaa;background:#eee;padding:20px 20px 0 20px;width:280px;border-radius:20px}
+#form_login h1{margin:0;text-align:center}
+#form_login div{height:40px}
+#form_login div input[type="email"], #form_login div input[type="password"]{float:right;width:200px;height:20px;border:1px solid #AAA;border-radius:5px}
+#form_submit{background:#F5F5F5;border:1px solid #aaa;border-radius:5px}
+.form_busca{margin-bottom:10px}
+.form_busca input[type="text"]{background:#fff;border:1px solid #888;border-radius:10px;padding:3px 10px;width:500px}
+.form_busca input[type="text"]:focus{border:1px solid #ff0000}
+
+
+/* ----- MENU ----- */
+menu{text-decoration: none;float: right;margin-bottom:9px}
+.menu_li{float: left;list-style: none;margin-top:0}
+.menu_li span{text-align:center;}
+.menu_li:hover{margin-bottom:-10px}
+.menu_li:hover ul {display:block;height: 0}
+.menu_li ul{display:none;list-style:none;margin:10px 0 0 -20px}
+.menu_li ul li{margin-left: -20px;text-align: center;position:relative;z-index: 1}
+.menu_li a{padding:10px 30px;background:#eee;border-bottom:0;border-radius:15px 15px 0 0;}
+.menu_li a:hover{background:#66e;color:#fff;}
+.menu_li li{margin:0;background:#eee;padding:10px 0 10px 0;border-bottom:1px solid #fff;}
+.menu_li li a{border:0;border-radius:0;padding:0;background:transparent;}
+.menu_li li:hover{background:#66e;color:#fff;}
+#linha{height:5px;background:#66e;clear:both}
+
+
+/* ----- TABELA ----- */
+.tabela{background:#eee;width:100%;border:2px solid #fff}
+.tabela th{background:#777;color:#fff;padding:5px}
+.tabela th a{color:#FFF}
+.tabela td{padding:3px}
+.zb1{background:#fff}
+.zb2{background:#eee}
+
+
+/* ----- FORMULÁRIOS ----- */
+.formulario{}
+.formulario div{margin:20px 0}
+.formulario span{color:#dd0000}
+.formulario textarea{width:870px;height:200px}
+.formulario input, select, textarea{background:#fff;border:1px solid #888;border-radius:10px;padding:3px 10px;width:870px}
+.formulario input:focus, select:focus, textarea:focus{border:1px solid #ff0000}
+.formulario input[type="radio"]{width:20px}
+.lb_bloqueado{margin-left:50px}
+.erro{color:red;position:relative;left:0;bottom:0;height:0;margin-top:-0px !important}
+#form_estado, #form_cidade{margin-bottom:0}
+
+
+
+.grp{background:#CCC;padding:5px 10px;border:2px solid #FFF}
+.grp_tab{margin-bottom:20px;display:none}
