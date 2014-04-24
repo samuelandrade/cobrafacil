@@ -44,6 +44,20 @@ include_once "controle/controle_cliente.php";
             <?php if($erro_msg[5] != ''){ echo "<div class='erro'>".$erro_msg[5]."</div>";}?>
         </div>
         <div>
+            <label class="campos">Logadouro: </label><br>
+            <input type='text' value='<?php echo $cliente->get_logadouro(); ?>' name='logadouro' id='logadouro'>
+            <?php if($erro_msg[15] != ''){ echo "<div class='erro'>".$erro_msg[15]."</div>";}?>
+        </div>
+        <div>
+            <label class="campos">Número: </label><br>
+            <input type='text' value='<?php echo $cliente->get_numero(); ?>' name='numero' id='numero'>
+            <?php if($erro_msg[16] != ''){ echo "<div class='erro'>".$erro_msg[16]."</div>";}?>
+        </div><div>
+            <label class="campos">Complemento: </label><br>
+            <input type='text' value='<?php echo $cliente->get_complemento(); ?>' name='complemento' id='complemento'>
+            <?php if($erro_msg[17] != ''){ echo "<div class='erro'>".$erro_msg[17]."</div>";}?>
+        </div>
+        <div>
             <div id="form_estado"></div>
             <?php if($erro_msg[6] != ''){ echo "<div class='erro'>".$erro_msg[6]."</div>";}?>
         </div>

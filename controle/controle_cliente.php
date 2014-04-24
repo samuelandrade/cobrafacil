@@ -26,6 +26,9 @@ if($_POST["btn_salvar"] == "Salvar"){
     if(!$cliente->set_contrato(   $_POST["contrato"]   )){ $erro = 1; $erro_msg[12] = "Número de contrato inválido";}
     if(!$cliente->set_grupo(      $_POST["grupo"]      )){ $erro = 1; $erro_msg[13] = "Escolha o grupo";}
     if(!$cliente->set_observacoes($_POST["observacoes"])){ $erro = 1; $erro_msg[14] = "";}
+    if(!$cliente->set_logadouro(  $_POST["logadouro"]  )){ $erro = 1; $erro_msg[15] = "";}
+    if(!$cliente->set_numero(     $_POST["numero"]     )){ $erro = 1; $erro_msg[16] = "";}
+    if(!$cliente->set_complemento($_POST["complemento"])){ $erro = 1; $erro_msg[17] = "";}
     
     if($erro == 0){
         if($cliente->salvar()){

@@ -8,6 +8,9 @@ class cliente{
 	private $rg;
 	private $dt_nasc;
 	private $sexo;
+        private $logadouro;
+        private $numero;
+        private $complemento;
 	private $uf;
 	private $cidade;
 	private $cep;
@@ -27,6 +30,9 @@ class cliente{
 		$this->rg = NULL;
 		$this->dt_nasc = NULL;
 		$this->sexo = NULL;
+                $this->logadouro = NULL;
+                $this->numero = NULL;
+                $this->complemento = NULL;
 		$this->uf = NULL;
 		$this->cidade = NULL;
 		$this->cep = NULL;
@@ -66,6 +72,15 @@ class cliente{
 	public function get_sexo(){
 		return $this->sexo;
 	}
+        public function get_logadouro(){
+		return $this->logadouro;
+	}
+        public function get_numero(){
+		return $this->numero;
+	}
+        public function get_complemento(){
+		return $this->complemento;
+	}
 	public function get_uf(){
 		return $this->uf;
 	}
@@ -93,6 +108,23 @@ class cliente{
 	public function get_observacoes(){
 		return $this->observacoes;
 	}
+        public function get_endereco(){
+            $r = '';
+            if($this->logadouro){
+                $r = $this->logadouro;
+                
+                if($this->numero){
+                    $r .= ", ".$this->numero;
+                }
+                
+                if($this->complemento){
+                    $r .= ", ".$this->complemento;
+                }
+            }
+            
+            return $r;
+	}
+        
 	
 	
 	public function set_id($id){
@@ -167,7 +199,21 @@ class cliente{
                     return 0;
                 }
         }
-
+        public function set_logadouro($logadouro){
+		$logadouro = addslashes($logadouro);
+                $this->logadouro = $logadouro;
+                return 1;
+        }
+        public function set_numero($numero){
+		$numero = addslashes($numero);
+                $this->numero = $numero;
+                return 1;
+        }
+        public function set_complemento($complemento){
+		$complemento = addslashes($complemento);
+                $this->complemento = $complemento;
+                return 1;
+        }
 	public function set_uf($uf){
 		if($uf != '' && valida::nome($uf)){
                     $this->uf = $uf;
@@ -251,7 +297,7 @@ class cliente{
 	
 	
 	public function salvar(){
-		$sql = "replace into cliente(id, id_empresa, bloqueado, nome, cpf, rg, dt_nasc, sexo, uf, cidade, cep, telefone, email, senha, contrato, grupo, observacoes) values('".$this->id."', '".$this->id_empresa."', '".$this->bloqueado."', '".$this->nome."', '".$this->cpf."', '".$this->rg."', '".$this->dt_nasc."', '".$this->sexo."', '".$this->uf."', '".$this->cidade."', '".$this->cep."', '".$this->telefone."', '".$this->email."', '".$this->senha."', '".$this->contrato."', '".$this->grupo."', '".$this->observacoes."')";
+		$sql = "replace into cliente(id, id_empresa, bloqueado, nome, cpf, rg, dt_nasc, sexo, logadouro, numero, complemento, uf, cidade, cep, telefone, email, senha, contrato, grupo, observacoes) values('".$this->id."', '".$this->id_empresa."', '".$this->bloqueado."', '".$this->nome."', '".$this->cpf."', '".$this->rg."', '".$this->dt_nasc."', '".$this->sexo."', '".$this->logadouro."', '".$this->numero."', '".$this->complemento."', '".$this->uf."', '".$this->cidade."', '".$this->cep."', '".$this->telefone."', '".$this->email."', '".$this->senha."', '".$this->contrato."', '".$this->grupo."', '".$this->observacoes."')";
 
 		$db = new db(config::$driver);
  		$con = $db->conecta();
@@ -280,6 +326,9 @@ class cliente{
 		$this->rg = $cliente["rg"];
 		$this->dt_nasc = $cliente["dt_nasc"];
 		$this->sexo = $cliente["sexo"];
+                $this->logadouro = $cliente["logadouro"];
+                $this->numero = $cliente["numero"];
+                $this->complemento = $cliente["complemento"];
 		$this->uf = $cliente["uf"];
 		$this->cidade = $cliente["cidade"];
 		$this->cep = $cliente["cep"];

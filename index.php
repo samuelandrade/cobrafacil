@@ -54,6 +54,13 @@
                             <li><a href="?pag=parcelas">Consultar</a></li>
                         </ul>
                     </li>
+                    <li class="menu_li">
+                        <a href="?pag=boleto" id="m_boleto"><span>Boletos</span></a>
+                        <ul>
+                            <li><a href="?pag=boletoSet">Novo</a></li>
+                            <li><a href="?pag=boleto">Consultar</a></li>
+                        </ul>
+                    </li>
                     
                 </ul>
                 </menu>
@@ -69,6 +76,8 @@
                         case "clienteSet"  : include_once "visao/clienteSet.php";  echo "<script>bg_menu('m_cliente');</script>\n";  break;
                         case "parcelas"    : include_once "visao/parcelas.php";    echo "<script>bg_menu('m_parcelas');</script>\n"; break;
                         case "parcelasSet" : include_once "visao/parcelasSet.php"; echo "<script>bg_menu('m_parcelas');</script>\n"; break;
+                        case "boleto"      : include_once "visao/boleto.php";      echo "<script>bg_menu('m_boleto');</script>\n";   break;
+                        case "boletoSet"   : include_once "visao/boletoSet.php";   echo "<script>bg_menu('m_boleto');</script>\n";   break;
                         
                         default: include_once "visao/home.php"; echo "<script>bg_menu('m_inicio');</script>\n"; break;
                     }

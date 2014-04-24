@@ -1,6 +1,7 @@
 <?php
 class parcela{
-	private $id_cliente;
+	private $id_boleto;
+        private $id_cliente;
 	private $valor;
 	private $multa;
 	private $juro;
@@ -8,7 +9,8 @@ class parcela{
 	private $dt_vencimento;
 
 	public function __construct(){
-		$this->id_cliente = NULL;
+		$this->id_boleto = NULL;
+                $this->id_cliente = NULL;
 		$this->valor = NULL;
 		$this->multa = NULL;
 		$this->juro = NULL;
@@ -16,7 +18,10 @@ class parcela{
 		$this->dt_vencimento = NULL;
 	}
 
-	public function get_id_cliente(){
+	public function get_id_boleto(){
+		return $this->id_boleto;
+	}
+        public function get_id_cliente(){
 		return $this->id_cliente;
 	}
 	public function get_valor(){
@@ -43,7 +48,16 @@ class parcela{
 	}
 	
 	
-	public function set_id_cliente($id_cliente){
+	public function set_id_boleto($id_boleto){
+		if($id_boleto != '' && valida::numero($id_boleto)){
+                    $this->id_boleto = $id_boleto;
+                    return 1;
+		}else{
+                    return 0;
+                }
+        }
+        
+        public function set_id_cliente($id_cliente){
 		if($id_cliente != '' && valida::numero($id_cliente)){
                     $this->id_cliente = $id_cliente;
                     return 1;

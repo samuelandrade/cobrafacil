@@ -19,6 +19,7 @@ $parcelas = new parcela();
 if($_POST["btn_salvar"] == "Salvar"){
     $erro = 0;
     
+    if(!$parcelas->set_id_boleto($_POST["boleto"])){ $erro = 1; }
     if(!$parcelas->set_id_cliente($_POST["cliente"])){ $erro = 1; }
     if(!$parcelas->set_valor($_POST["valor"])){ $erro = 1; }
     if(!$parcelas->set_multa($_POST["multa"])){ $erro = 1; }
@@ -48,8 +49,8 @@ function geraParcela($parcelas){
         $dt_vencimento = soma_data($n, $parcelas->get_dt_vencimento());
         $transacao = new transacao();
         $transacao->set_id_empresa($_SESSION["cf_id_empresa"]);
-        $transacao->set_id_sistema(config::$id_sistema);
-
+        
+        $transacao->set_id_boleto($parcelas->get_id_boleto());
         $transacao->set_id_cliente($parcelas->get_id_cliente());
         $transacao->set_valor($parcelas->get_valor());
         $transacao->set_multa($parcelas->get_multa());
@@ -65,24 +66,21 @@ function geraParcela($parcelas){
 }
 
 function mostraTransacao($id = NULL){
-    $sql = "SELECT * FROM transacao WHERE id_sistema = '".config::$id_sistema."' AND id_empresa = '".$_SESSION["cf_id_empresa"]."'";
+    $sql = "SELECT * FROM transacao WHERE id_empresa = '".$_SESSION["cf_id_empresa"]."'";
     if($id){
         $sql .= " AND id_cliente = '$id'";
     }
     $sql .= " ORDER BY dt_vencimento";
-    $db = new db(config::$driver_login);
+    $db = new db(config::$driver);
     $conexao = $db->conecta();
     $result = $db->query($sql, $conexao);
-    $db->close($conexao);
+    
     $c = 0;
     $i = 0;
     while($parcela = $db->fetch_array($result)){
         $sql_cli = "SELECT nome FROM cliente WHERE id = '".$parcela["id_cliente"]."' AND id_empresa = '".$_SESSION["cf_id_empresa"]."'";
-        $db = new db(config::$driver);
-        $conexao = $db->conecta();
         $res_cli = $db->query($sql_cli, $conexao);
         $cliente = $db->fetch_array($res_cli);
-        $db->close($conexao);
         
         if($c == 0){
             $zb = "zb1";
@@ -137,7 +135,7 @@ function mostraTransacao($id = NULL){
             <td>$status</td>
             <td>
                 <a href='' title='Editar parcela'><button class='botao'>E</button></a>
-                <a href='' title='Imprimir o boleto'><button class='botao'>Imp</button></a>
+                <a href='boleto/?id=".$parcela["id"]."' target='_blank' title='Imprimir o boleto'><button class='botao'>Imp</button></a>
             </td>
         </tr>";
         $i++;
@@ -146,10 +144,10 @@ function mostraTransacao($id = NULL){
     if($i == 0){
         echo "
         <tr class='zb1'>
-            <td colspan='7'>Nenhum resultado</td>
+            <td colspan='10'>Nenhum resultado</td>
         </tr>";
     }
-    
+    $db->close($conexao);
     unset($db);
 }
 
@@ -167,5 +165,17 @@ function parcela_mostraCliente($grupo = NULL, $id = NULL){
     while($cliente = $db->fetch_array($result)){
         echo "
         <option value='".$cliente["id"]."'>".$cliente["nome"]."</option>";
+    }
+}
+
+function parcela_mostraBoleto($boleto){
+    $sql = "SELECT id, titulo FROM boleto WHERE id_empresa = '".$_SESSION["cf_id_empresa"]."'";
+
+    $db = new db(config::$driver);
+    $conexao = $db->conecta();
+    $result = $db->query($sql, $conexao);
+    while($boleto = $db->fetch_array($result)){
+        echo "
+        <option value='".$boleto["id"]."'>".$boleto["titulo"]."</option>";
     }
 }

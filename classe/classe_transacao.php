@@ -2,7 +2,7 @@
 class transacao{
 	private $id;
         private $id_empresa;
-	private $id_sistema;
+        private $id_boleto;
 	private $id_cliente;
 	private $valor;
 	private $dt_vencimento;
@@ -14,7 +14,7 @@ class transacao{
 	public function __construct(){
 		$this->id = NULL;
                 $this->id_empresa = NULL;
-		$this->id_sistema = NULL;
+                $this->id_boleto = NULL;
 		$this->id_cliente = NULL;
 		$this->valor = NULL;
 		$this->dt_vencimento = NULL;
@@ -30,8 +30,8 @@ class transacao{
         public function get_id_empresa(){
 		return $this->id_empresa;
 	}
-	public function get_id_sistema(){
-		return $this->id_sistema;
+        public function get_id_boleto(){
+		return $this->id_boleto;
 	}
 	public function get_id_cliente(){
 		return $this->id_cliente;
@@ -73,10 +73,10 @@ class transacao{
                     return 0;
                 }
         }
-
-	public function set_id_sistema($id_sistema){
-		if(valida::numero($id_sistema)){
-                    $this->id_sistema = $id_sistema;
+        
+        public function set_id_boleto($id){
+		if(valida::numero($id)){
+                    $this->id_boleto = $id;
                     return 1;
 		}else{
                     return 0;
@@ -149,9 +149,9 @@ class transacao{
 	
 	
 	public function salvar(){
-		$sql = "replace into transacao(id, id_empresa, id_sistema, id_cliente, valor, dt_vencimento, multa, juro, dt_pagamento, valor_pago) values('".$this->id."', '".$this->id_empresa."', '".$this->id_sistema."', '".$this->id_cliente."', '".$this->valor."', '".$this->dt_vencimento."', '".$this->multa."', '".$this->juro."', '".$this->dt_pagamento."', '".$this->valor_pago."')";
+		$sql = "replace into transacao(id, id_empresa, id_boleto, id_cliente, valor, dt_vencimento, multa, juro, dt_pagamento, valor_pago) values('".$this->id."', '".$this->id_empresa."', '".$this->id_boleto."', '".$this->id_cliente."', '".$this->valor."', '".$this->dt_vencimento."', '".$this->multa."', '".$this->juro."', '".$this->dt_pagamento."', '".$this->valor_pago."')";
 
-		$db = new db(config::$driver_login);
+		$db = new db(config::$driver);
  		$con = $db->conecta();
 		$res = $db->query($sql, $con);
 		$db->close($con);
@@ -161,7 +161,7 @@ class transacao{
 	public function carregar($id){
 		$sql = "select * from transacao where id = '$id'";
 
-		$db = new db(config::$driver_login);
+		$db = new db(config::$driver);
  		$con = $db->conecta();
 		$res = $db->query($sql, $con);
 		$db->close($con);
@@ -170,7 +170,7 @@ class transacao{
 
 		$this->id = $transacao["id"];
                 $this->id_empresa = $transacao["id_empresa"];
-		$this->id_sistema = $transacao["id_sistema"];
+                $this->id_boleto = $transacao["id_boleto"];
 		$this->id_cliente = $transacao["id_cliente"];
 		$this->valor = $transacao["valor"];
 		$this->dt_vencimento = $transacao["dt_vencimento"];

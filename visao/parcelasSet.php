@@ -7,6 +7,13 @@ include_once "controle/controle_parcela.php";
     <legend>Gerar parcelas</legend>
     <form action="" method="post" class="formulario">
         <div>
+            <label class="campos">Boleto: </label><br>
+            <select name='boleto'>
+                <option value=""> -- Selecione o boleto -- </option>
+                <?=parcela_mostraBoleto($parcelas->get_id_boleto())?>
+            </select>
+        </div>
+        <div>
             <label class="campos">Cliente: </label><br>
             <select name='cliente'>
                 <option value=""> -- Selecione o cliente -- </option>
@@ -31,7 +38,7 @@ include_once "controle/controle_parcela.php";
         </div>
         <div>
             <label class="campos">Data de vencimento da primeira parcela: </label><br>
-            <input type='text' value='<?=$parcelas->get_dt_vencimento()?>' name='vencimento' id='vencimento' OnKeyPress="formatar(this, '00/00/0000')" maxlength="10">
+            <input type='text' value='<?=$parcelas->get_dt_vencimento_pt()?>' name='vencimento' id='vencimento' OnKeyPress="formatar(this, '00/00/0000')" maxlength="10">
         </div>
         <div>
             <button type="submit" name="btn_salvar" value="Salvar" class="botao">Salvar</button>
