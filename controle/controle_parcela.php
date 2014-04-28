@@ -19,8 +19,10 @@ $parcelas = new parcela();
 if($_POST["btn_salvar"] == "Salvar"){
     $erro = 0;
     
+    if(!$parcelas->set_ch_cg($_POST["sel_cg"])){ $erro = 1; }
     if(!$parcelas->set_id_boleto($_POST["boleto"])){ $erro = 1; }
     if(!$parcelas->set_id_cliente($_POST["cliente"])){ $erro = 1; }
+    if(!$parcelas->set_id_grupo($_POST["grupo"])){ $erro = 1; }
     if(!$parcelas->set_valor($_POST["valor"])){ $erro = 1; }
     if(!$parcelas->set_multa($_POST["multa"])){ $erro = 1; }
     if(!$parcelas->set_juro($_POST["juro"])){ $erro = 1; }
@@ -28,7 +30,8 @@ if($_POST["btn_salvar"] == "Salvar"){
     if(!$parcelas->set_dt_vencimento($_POST["vencimento"])){ $erro = 1; }
     
     if($erro == 0){
-        if(geraParcela($parcelas)){
+        
+        if(geraParcelao($parcelas)){
             echo "
             <script>
                 alert('Parcelas salvas com sucesso!');
@@ -44,6 +47,26 @@ if($_POST["btn_salvar"] == "Salvar"){
 }
 
 function geraParcela($parcelas){
+    if($parcelas->get_id_grupo()){
+        $sql = "SELECT id FROM cliente WHERE id_empresa = '".$_SESSION["cf_id_empresa"]."' AND grupo = '".$parcelas->get_id_grupo()."'";
+        $db = new db(config::$driver);
+        $conexao = $db->conecta();
+        $result = $db->query($sql, $conexao);
+        while($cliente = $db->fetch_array($result)){
+            if($parcelas->set_id_cliente($cliente[0])){
+                if(!geraParcelaCliente($parcelas)){
+                    return 0;
+                }
+            }
+        }
+
+        return 1;
+    }else{
+        return geraParcelaCliente($parcelas);
+    }
+}
+
+function geraParcelaCliente($parcelas){
     for($i = 0; $i < $parcelas->get_quantidade();$i++){
         $n = $i * 30;
         $dt_vencimento = soma_data($n, $parcelas->get_dt_vencimento());
@@ -165,6 +188,20 @@ function parcela_mostraCliente($grupo = NULL, $id = NULL){
     while($cliente = $db->fetch_array($result)){
         echo "
         <option value='".$cliente["id"]."'>".$cliente["nome"]."</option>";
+    }
+}
+
+function parcela_mostraGrupo($id = NULL){
+    $sql = "SELECT id, nome FROM grupo WHERE id_empresa = '".$_SESSION["cf_id_empresa"]."'";
+    if($id){
+        $sql .= " AND id = '$id'";
+    }
+    $db = new db(config::$driver);
+    $conexao = $db->conecta();
+    $result = $db->query($sql, $conexao);
+    while($grupo = $db->fetch_array($result)){
+        echo "
+        <option value='".$grupo["id"]."'>".$grupo["nome"]."</option>";
     }
 }
 

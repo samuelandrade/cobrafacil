@@ -14,10 +14,24 @@ include_once "controle/controle_parcela.php";
             </select>
         </div>
         <div>
-            <label class="campos">Cliente: </label><br>
+            <label class="campos">Parcelas para: </label>
+            <input type="radio" value="1" name="sel_cg" id="sel_cliente" class="lb_bloqueado" onchange="troca_clieGrupo(1)">
+            <label class="campos" for="sel_cliente">Cliente</label>
+            <input type="radio" value="2" name="sel_cg" id="sel_grupo" class="lb_bloqueado" onchange="troca_clieGrupo(2)">
+            <label class="campos" for="sel_grupo">Grupo</label>
+        </div>
+        <div id="grp_cliente" class="grp_div">
+            <!--<label class="campos">Cliente: </label><br>-->
             <select name='cliente'>
                 <option value=""> -- Selecione o cliente -- </option>
                 <?=parcela_mostraCliente($grupo, $parcelas->get_id_cliente())?>
+            </select>
+        </div>
+        <div id="grp_grupo" class="grp_div">
+            <!--<label class="campos">Grupo: </label><br>-->
+            <select name='grupo'>
+                <option value=""> -- Selecione o grupo -- </option>
+                <?=parcela_mostraGrupo(/*$parcelas->get_id_grupo()*/)?>
             </select>
         </div>
         <div>

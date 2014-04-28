@@ -2,6 +2,8 @@
 class parcela{
 	private $id_boleto;
         private $id_cliente;
+        private $id_grupo;
+        private $ch_cg;
 	private $valor;
 	private $multa;
 	private $juro;
@@ -11,6 +13,8 @@ class parcela{
 	public function __construct(){
 		$this->id_boleto = NULL;
                 $this->id_cliente = NULL;
+                $this->id_grupo = NULL;
+                $this->ch_cg = NULL;
 		$this->valor = NULL;
 		$this->multa = NULL;
 		$this->juro = NULL;
@@ -24,7 +28,13 @@ class parcela{
         public function get_id_cliente(){
 		return $this->id_cliente;
 	}
-	public function get_valor(){
+        public function get_id_grupo(){
+		return $this->id_grupo;
+	}
+	public function get_ch_cg(){
+		return $this->ch_cg;
+	}
+        public function get_valor(){
 		return $this->valor;
 	}
 	public function get_multa(){
@@ -58,8 +68,34 @@ class parcela{
         }
         
         public function set_id_cliente($id_cliente){
+            if($this-ch_cg == 1){
 		if($id_cliente != '' && valida::numero($id_cliente)){
                     $this->id_cliente = $id_cliente;
+                    return 1;
+		}else{
+                    return 0;
+                }
+            }else{
+                return 1;
+            }
+        }
+        
+        public function set_id_grupo($id_grupo){
+            if($this-ch_cg == 2){
+		if($id_grupo != '' && valida::numero($id_grupo)){
+                    $this->id_grupo = $id_grupo;
+                    return 1;
+		}else{
+                    return 0;
+                }
+            }else{
+                return 1;
+            }
+        }
+        
+        public function set_ch_cg($valor){
+		if($valor != '' && valida::float($valor)){
+                    $this->ch_cg = $valor;
                     return 1;
 		}else{
                     return 0;

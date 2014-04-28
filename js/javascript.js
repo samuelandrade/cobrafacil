@@ -72,3 +72,13 @@ function mostra_clieGrupo( id ){
         document.getElementById("grp_" + id).style.display = "block";
     }
 }
+
+function troca_clieGrupo( id ){
+    if(id == 1){
+        document.getElementById("grp_cliente").style.display = "block";
+        document.getElementById("grp_grupo").style.display = "none";
+    }else{
+        document.getElementById("grp_cliente").style.display = "none";
+        document.getElementById("grp_grupo").style.display = "block";
+    }
+}

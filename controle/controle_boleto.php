@@ -98,7 +98,7 @@ function mostraBoleto(){
                 <td>".$boleto["identificacao"]."</td>
                 <td>
                     <a href='?pag=boletoSet&id=".$boleto["id"]."' title='Editar este boleto'><button class='botao'>Editar</button></a>
-                    <a href='../boleto/teste.php?id=".$boleto["id"]."' target='_blank' title='Imprimir boleto teste'>Teste</a>
+                    <a href='boleto/teste.php?id=".$boleto["id"]."' target='_blank' title='Imprimir boleto teste'>Teste</a>
                 </td>
             </tr>";
         $i_cont++;

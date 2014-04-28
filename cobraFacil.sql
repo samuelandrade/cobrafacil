@@ -14,9 +14,9 @@ create table cliente(
     rg varchar(30) not null,
     dt_nasc date,
     sexo tinyint(1) not null,
-logadouro
-                numero
-                complemento
+    logadouro varchar(300),
+    numero int,
+    complemento varchar(100),
     uf varchar(2) not null,
     cidade varchar(35) not null,
     cep varchar(9),

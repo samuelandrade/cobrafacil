@@ -5,4 +5,5 @@ class config{
     static $driver = "mysql;localhost;cobraFacil;root;mandriva;";
     static $driver_login = "mysql;localhost;sgm;root;mandriva;";
     static $url_aw = "http://localhost/";
+    static $id_sistema = 4;
 }
