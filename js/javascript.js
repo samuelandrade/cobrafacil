@@ -82,3 +82,7 @@ function troca_clieGrupo( id ){
         document.getElementById("grp_grupo").style.display = "block";
     }
 }
+
+function submete(){
+    document.form_mostra_status.submit();
+}

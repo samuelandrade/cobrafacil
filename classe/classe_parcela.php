@@ -68,29 +68,29 @@ class parcela{
         }
         
         public function set_id_cliente($id_cliente){
-            if($this-ch_cg == 1){
+            //if($this-ch_cg == 1){
 		if($id_cliente != '' && valida::numero($id_cliente)){
                     $this->id_cliente = $id_cliente;
                     return 1;
 		}else{
                     return 0;
                 }
-            }else{
+            /*}else{
                 return 1;
-            }
+            }*/
         }
         
         public function set_id_grupo($id_grupo){
-            if($this-ch_cg == 2){
+            //if($this-ch_cg == 2){
 		if($id_grupo != '' && valida::numero($id_grupo)){
                     $this->id_grupo = $id_grupo;
                     return 1;
 		}else{
                     return 0;
                 }
-            }else{
+            /*}else{
                 return 1;
-            }
+            }*/
         }
         
         public function set_ch_cg($valor){

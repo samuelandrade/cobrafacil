@@ -16,17 +16,20 @@
     </head>
     <body>
         <div id="center">
-            <?php if(logado()){ ?>
+            <?php 
+            if(logado()){
+                if($_SESSION["cf_usuario"] == "administrador"){
+            ?>
             <header>
                 <div id="logo">
-                    <img src="<?//=logoEmpresa()?>" alt="<?//=nomeEmpresa()?>" id="imagem_logo"  <?//=ajustaLogo()?>>
+                    <img src="<?=logoEmpresa()?>" alt="<?=nomeEmpresa()?>" id="imagem_logo"  <?=ajustaLogo()?>>
                 </div>
-                <div id="nome_empresa" <?//=ajustaNomeEmpresa()?>>
-                    <label><?//=nomeEmpresa()?></label>
+                <div id="nome_empresa" <?=ajustaNomeEmpresa()?>>
+                    <label><?=nomeEmpresa()?></label>
                 </div>
                 
                 <div id="id_usuario">
-                    <label>Olá <?=$_SESSION["cf_nome"]?> | <a href="?pag=cnf" title="Configurações">Configurações</a> | <a href="?sair=1" title="Sair">Sair</a></label>
+                    <label>Olá <?=$_SESSION["cf_nome"]?> | <a href="?pag=config" title="Configurações">Configurações</a> | <a href="?sair=1" title="Sair">Sair</a></label>
                 </div>
                 <menu>
                 <ul>
@@ -70,32 +73,60 @@
                 <?php
                 //if(logado()){
                     switch($pag){
-                        case "grupo"       : include_once "visao/grupo.php";       echo "<script>bg_menu('m_grupo');</script>\n";    break;
-                        case "grupoSet"    : include_once "visao/grupoSet.php";    echo "<script>bg_menu('m_grupo');</script>\n";    break;
-                        case "cliente"     : include_once "visao/cliente.php";     echo "<script>bg_menu('m_cliente');</script>\n";  break;
-                        case "clienteSet"  : include_once "visao/clienteSet.php";  echo "<script>bg_menu('m_cliente');</script>\n";  break;
-                        case "parcelas"    : include_once "visao/parcelas.php";    echo "<script>bg_menu('m_parcelas');</script>\n"; break;
-                        case "parcelasSet" : include_once "visao/parcelasSet.php"; echo "<script>bg_menu('m_parcelas');</script>\n"; break;
-                        case "boleto"      : include_once "visao/boleto.php";      echo "<script>bg_menu('m_boleto');</script>\n";   break;
-                        case "boletoSet"   : include_once "visao/boletoSet.php";   echo "<script>bg_menu('m_boleto');</script>\n";   break;
+                        case "grupo"       : include_once "visao/grupo.php";        echo "<script>bg_menu('m_grupo');</script>\n";    break;
+                        case "grupoSet"    : include_once "visao/grupoSet.php";     echo "<script>bg_menu('m_grupo');</script>\n";    break;
+                        case "cliente"     : include_once "visao/cliente.php";      echo "<script>bg_menu('m_cliente');</script>\n";  break;
+                        case "clienteSet"  : include_once "visao/clienteSet.php";   echo "<script>bg_menu('m_cliente');</script>\n";  break;
+                        case "parcelas"    : include_once "visao/parcelas.php";     echo "<script>bg_menu('m_parcelas');</script>\n"; break;
+                        case "parcelasSet" : include_once "visao/parcelasSet.php";  echo "<script>bg_menu('m_parcelas');</script>\n"; break;
+                        case "transSet"    : include_once "visao/transacaoSet.php"; echo "<script>bg_menu('m_parcelas');</script>\n"; break;
+                        case "boleto"      : include_once "visao/boleto.php";       echo "<script>bg_menu('m_boleto');</script>\n";   break;
+                        case "boletoSet"   : include_once "visao/boletoSet.php";    echo "<script>bg_menu('m_boleto');</script>\n";   break;
+                        
+                        case "config" : include_once "visao/configuracoes.php"; break;
                         
                         default: include_once "visao/home.php"; echo "<script>bg_menu('m_inicio');</script>\n"; break;
                     }
                     echo "
             </section>";
+                    }else{
+                        
+                        ?>
+            <header>
+                <div id="logo">
+                    <img src="<?=logoEmpresa()?>" alt="<?=nomeEmpresa()?>" id="imagem_logo"  <?=ajustaLogo()?>>
+                </div>
+                <div id="nome_empresa" <?=ajustaNomeEmpresa()?>>
+                    <label><?=nomeEmpresa()?></label>
+                </div>
+
+                <div id="id_usuario">
+                    <label>Olá <?=$_SESSION["cf_nome"]?> | <a href="?pag=config" title="Configurações">Configurações</a> | <a href="?sair=1" title="Sair">Sair</a></label>
+                </div>
+                <menu>
+                    <ul>
+                        <li class="menu_li"> </li>
+                    </ul>
+                </menu>
+            </header>
+            <div id="linha"></div>
+            <section>
+                <?php include_once "visao/parcelas.php"; ?>
+            </section>
+                <?php
+                
+                    }
                 }else{
                     include_once "visao/login.php";
                 }
                 ?>
             
             <footer>
-                <!--
-                    <a href="http://www.anguloweb.com.br/" title="AnguloWeb" id="marcadagua">
-                        <img src="imagens/AWMdagua.png" alt="AnguloWeb">
-                    </a>
-                -->
                 <label>Cobra Fácil</label><br>
                 <a href="http://www.anguloweb.com.br" title="AnguloWeb">&COPY; ÂnguloWeb Soluções para Internet - Todos os direitos reservados&nbsp;&nbsp;</a>
+                <a href="http://www.anguloweb.com.br/" title="AnguloWeb" id="marcadagua">
+                    <img src="imagens/AWMdagua.png" alt="AnguloWeb">
+                </a>
             </footer>
         </div>
     </body>

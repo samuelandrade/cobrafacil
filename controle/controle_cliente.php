@@ -30,6 +30,9 @@ if($_POST["btn_salvar"] == "Salvar"){
     if(!$cliente->set_numero(     $_POST["numero"]     )){ $erro = 1; $erro_msg[16] = "";}
     if(!$cliente->set_complemento($_POST["complemento"])){ $erro = 1; $erro_msg[17] = "";}
     
+    if($cliente->checa_cpf($_POST["cpf"])){ $erro = 1; $erro_msg[2] = "CPF já existente"; }
+    if($cliente->checa_email($_POST["email"])){ $erro = 1; $erro_msg[10] = "E-Mail já existente"; }
+    
     if($erro == 0){
         if($cliente->salvar()){
             echo "

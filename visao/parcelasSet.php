@@ -15,9 +15,9 @@ include_once "controle/controle_parcela.php";
         </div>
         <div>
             <label class="campos">Parcelas para: </label>
-            <input type="radio" value="1" name="sel_cg" id="sel_cliente" class="lb_bloqueado" onchange="troca_clieGrupo(1)">
+            <input type="radio" value="1" name="sel_cg" id="sel_cliente" class="lb_bloqueado" onchange="troca_clieGrupo(1)" <?php if($parcelas->get_ch_cg() == 1){ echo "checked";} ?>>
             <label class="campos" for="sel_cliente">Cliente</label>
-            <input type="radio" value="2" name="sel_cg" id="sel_grupo" class="lb_bloqueado" onchange="troca_clieGrupo(2)">
+            <input type="radio" value="2" name="sel_cg" id="sel_grupo" class="lb_bloqueado" onchange="troca_clieGrupo(2)" <?php if($parcelas->get_ch_cg() == 2){ echo "checked";} ?>>
             <label class="campos" for="sel_grupo">Grupo</label>
         </div>
         <div id="grp_cliente" class="grp_div">
@@ -31,7 +31,7 @@ include_once "controle/controle_parcela.php";
             <!--<label class="campos">Grupo: </label><br>-->
             <select name='grupo'>
                 <option value=""> -- Selecione o grupo -- </option>
-                <?=parcela_mostraGrupo(/*$parcelas->get_id_grupo()*/)?>
+                <?=parcela_mostraGrupo($parcelas->get_id_grupo())?>
             </select>
         </div>
         <div>
@@ -39,7 +39,7 @@ include_once "controle/controle_parcela.php";
             <input type='text' value='<?=$parcelas->get_valor()?>' name='valor' id='valor'>
         </div>
         <div>
-            <label class="campos">Multa por atrazo: </label><br>
+            <label class="campos">Multa por atraso: </label><br>
             <input type='text' value='<?=$parcelas->get_multa()?>' name='multa' id='multa'>
         </div>
         <div>
@@ -59,3 +59,6 @@ include_once "controle/controle_parcela.php";
         </div>
     </form>
 </fieldset>
+<script>
+    troca_clieGrupo(<?=$parcelas->get_ch_cg()?>)
+</script>

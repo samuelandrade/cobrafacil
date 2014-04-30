@@ -293,6 +293,45 @@ class cliente{
                 $this->observacoes = $observacoes;
                 return 1;
         }
+        
+        public function checa_cpf($cpf){
+            if(!$cpf){
+                $cpf = $this->cpf;
+            }else if(valida::cpf($cpf)){
+                $sql = "SELECT count(*) FROM cliente WHERE cpf = '$cpf'";
+
+                $db = new db(config::$driver);
+                $con = $db->conecta();
+                $res = $db->query($sql, $con);
+                $db->close($con);
+                $cpf = $db->fetch_array($res);
+                
+                if($cpf[0] > 0){
+                    return 1;
+                }
+            }
+            return 0;
+        }
+        
+        public function checa_email($email){
+            if(!$email){
+                $email = $this->email;
+            }else if(valida::email($email)){
+                $sql = "SELECT count(*) FROM cliente WHERE email = '$email'";
+
+                $db = new db(config::$driver);
+                $con = $db->conecta();
+                $res = $db->query($sql, $con);
+                $db->close($con);
+                $email = $db->fetch_array($res);
+                
+                if($email[0] > 0){
+                    return 1;
+                }
+            }
+            return 0;
+        }
+        
 
 	
 	

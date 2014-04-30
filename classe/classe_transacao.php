@@ -42,6 +42,9 @@ class transacao{
 	public function get_dt_vencimento(){
 		return $this->dt_vencimento;
 	}
+        public function get_dt_vencimento_pt(){
+		return data_ptbr($this->dt_vencimento);
+	}
 	public function get_multa(){
 		return $this->multa;
 	}
@@ -50,6 +53,9 @@ class transacao{
 	}
 	public function get_dt_pagamento(){
 		return $this->dt_pagamento;
+	}
+        public function get_dt_pagamento_pt(){
+                return data_ptbr($this->dt_pagamento);
 	}
 	public function get_valor_pago(){
 		return $this->valor_pago;
@@ -103,7 +109,11 @@ class transacao{
 
 	public function set_dt_vencimento($dt_vencimento){
 		if(valida::data($dt_vencimento)){
-                    $this->dt_vencimento = $dt_vencimento;
+                    if(substr($dt_vencimento, 2, 1) == '/' && substr($dt_vencimento, 5, 1) == '/'){
+                        $this->dt_vencimento = data_sql($dt_vencimento);
+                    }else{
+                        $this->dt_vencimento = $dt_vencimento;
+                    }
                     return 1;
 		}else{
                     return 0;
@@ -130,7 +140,11 @@ class transacao{
 
 	public function set_dt_pagamento($dt_pagamento){
 		if(valida::data($dt_pagamento)){
-                    $this->dt_pagamento = $dt_pagamento;
+                    if(substr($dt_vencimento, 2, 1) == '/' && substr($dt_vencimento, 5, 1) == '/'){
+                        $this->dt_pagamento = data_sql($dt_pagamento);
+                    }else{
+                        $this->dt_pagamento = $dt_pagamento;
+                    }
                     return 1;
 		}else{
                     return 0;
