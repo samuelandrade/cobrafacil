@@ -1,5 +1,5 @@
 <?php
-error_reporting(1);
+error_reporting(0);
 session_start();
 $access_control = "549ugh4gre98h943";
 $pag = $_GET["pag"];
