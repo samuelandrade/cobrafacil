@@ -1,11 +1,51 @@
 <?php
+function dv($coop, $cliente, $NossoNumero){
+    $constante = 3197;
+    $res = array();
+    $numero = tamanho($coop, 4).tamanho($cliente, 10).tamanho($NossoNumero, 7);
+    $cont = 0;
+    
+    for($i = 0; $i < strlen($numero); $i++){
+        $res[$i] = substr($numero, $i, 1) * substr($constante, $cont, 1);
+        
+        $cont++;
+        if($cont > 3){
+            $cont = 0;
+        }
+    }
+    
+    $x = 0;
+    $total = 0;
+    for($x = 0; $x < $i; $x++){
+        $total += $res[$x];
+    }
+    
+    $dv = 11 - ($total % 11);
+    /*
+    if($dv == 1){
+        $dv = 0;
+    }
+    */
+    return $dv;
+}
+
+function tamanho($numero, $tam){
+    if(strlen($numero) >= $tam){
+        return substr($numero, 0, $tam);
+    }else{
+        while(strlen($numero) < $tam){
+            $numero = "0".$numero;
+        }
+        return $numero;
+    }
+}
 // +----------------------------------------------------------------------+
-// | BoletoPhp - Versão Beta                                              |
+// | BoletoPhp - Vers�o Beta                                              |
 // +----------------------------------------------------------------------+
-// | Este arquivo está disponível sob a Licença GPL disponível pela Web   |
+// | Este arquivo est� dispon�vel sob a Licen�a GPL dispon�vel pela Web   |
 // | em http://pt.wikipedia.org/wiki/GNU_General_Public_License           |
-// | Você deve ter recebido uma cópia da GNU Public License junto com     |
-// | esse pacote; se não, escreva para:                                   |
+// | Voc� deve ter recebido uma c�pia da GNU Public License junto com     |
+// | esse pacote; se n�o, escreva para:                                   |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
 // | 59 Temple Place - Suite 330                                          |
@@ -13,74 +53,64 @@
 // +----------------------------------------------------------------------+
 
 // +----------------------------------------------------------------------+
-// | Originado do Projeto BBBoletoFree que tiveram colaborações de Daniel |
+// | Originado do Projeto BBBoletoFree que tiveram colabora��es de Daniel |
 // | William Schultz e Leandro Maniezo que por sua vez foi derivado do	  |
-// | PHPBoleto de João Prado Maia e Pablo Martins F. Costa                |
+// | PHPBoleto de Jo�o Prado Maia e Pablo Martins F. Costa                |
 // |                                                                      |
 // | Se vc quer colaborar, nos ajude a desenvolver p/ os demais bancos :-)|
 // | Acesse o site do Projeto BoletoPhp: www.boletophp.com.br             |
 // +----------------------------------------------------------------------+
 
 // +----------------------------------------------------------------------+
-// | Equipe Coordenação Projeto BoletoPhp: <boletophp@boletophp.com.br>   |
+// | Equipe Coordena��o Projeto BoletoPhp: <boletophp@boletophp.com.br>   |
 // | Desenvolvimento Boleto BANCOOB/SICOOB: Marcelo de Souza              |
 // | Ajuste de algumas rotinas: Anderson Nuernberg                        |
 // +----------------------------------------------------------------------+
 
-
-// ------------------------- DADOS DINÂMICOS DO SEU CLIENTE PARA A GERAÇÃO DO BOLETO (FIXO OU VIA GET) -------------------- //
-// Os valores abaixo podem ser colocados manualmente ou ajustados p/ formulário c/ POST, GET ou de BD (MySql,Postgre,etc)	//
+// ------------------------- DADOS DIN�MICOS DO SEU CLIENTE PARA A GERA��O DO BOLETO (FIXO OU VIA GET) -------------------- //
+// Os valores abaixo podem ser colocados manualmente ou ajustados p/ formul�rio c/ POST, GET ou de BD (MySql,Postgre,etc)	//
 
 // DADOS DO BOLETO PARA O SEU CLIENTE
-$dias_de_prazo_para_pagamento = 5;
+$dias_de_prazo_para_pagamento = 15;
 $taxa_boleto = 2.00;
 $data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  // Prazo de X dias OU informe data: "13/04/2006"; 
-$data_venc = "17/05/2014";
 $valor_cobrado = "1,00"; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
 $valor_cobrado = str_replace(",", ".",$valor_cobrado);
 $valor_boleto=number_format($valor_cobrado+$taxa_boleto, 2, ',', '');
+$NossoNumero = "123"; // Coloque o seu n�mero, at� 10 d�gitos
 
-$NossoNumero = "1400000001"; // Coloque o seu número, até 10 dígitos
-$calculoDv = 239 + ($NossoNumero{0} * 1) + ($NossoNumero{1} * 9) + ($NossoNumero{2} * 7) + ($NossoNumero{3} * 3);
-$Resto = $calculoDv % 11;
-$Dv = 11 - $Resto;
-if ($Dv == 0) $Dv = 0;
-if ($Dv == 1) $Dv = 0;
-if ($Dv > 9) $Dv = 0;
-$dadosboleto["nosso_numero"] = $NossoNumero . $Dv;
-
-//$dadosboleto["nosso_numero"] = "14000001";  // Até 8 digitos, sendo os 2 primeiros o ano atual (Ex.: 08 se for 2008)
+//$dadosboleto["nosso_numero"] = "1";  // At� 8 digitos, sendo os 2 primeiros o ano atual (Ex.: 08 se for 2008)
 $dadosboleto["numero_documento"] = "1";	// Num do pedido ou do documento
 $dadosboleto["data_vencimento"] = $data_venc; // Data de Vencimento do Boleto - REGRA: Formato DD/MM/AAAA
-$dadosboleto["data_documento"] = date("d/m/Y"); // Data de emissão do Boleto
+$dadosboleto["data_documento"] = date("d/m/Y"); // Data de emiss�o do Boleto
 $dadosboleto["data_processamento"] = date("d/m/Y"); // Data de processamento do boleto (opcional)
-$dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com vírgula e sempre com duas casas depois da virgula
+$dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com v�rgula e sempre com duas casas depois da virgula
 
 // DADOS DO SEU CLIENTE
 $dadosboleto["sacado"] = "Nome do seu Cliente";
-$dadosboleto["endereco1"] = "Endereço do seu Cliente";
+$dadosboleto["endereco1"] = "Endere�o do seu Cliente";
 $dadosboleto["endereco2"] = "Cidade - Estado -  CEP: 00000-000";
 
 // INFORMACOES PARA O CLIENTE
 $dadosboleto["demonstrativo1"] = "Pagamento de Compra na Loja Nonononono";
-$dadosboleto["demonstrativo2"] = "Mensalidade referente a nonon nonooon nononon<br>Taxa bancária - R$ ".number_format($taxa_boleto, 2, ',', '');
+$dadosboleto["demonstrativo2"] = "Mensalidade referente a nonon nonooon nononon<br>Taxa banc�ria - R$ ".number_format($taxa_boleto, 2, ',', '');
 $dadosboleto["demonstrativo3"] = "BoletoPhp - http://www.boletophp.com.br";
 
-// INSTRUÇÕES PARA O CAIXA
-$dadosboleto["instrucoes1"] = "- Sr. Caixa, cobrar multa de 2% após o vencimento";
-$dadosboleto["instrucoes2"] = "- Receber até 10 dias após o vencimento";
-$dadosboleto["instrucoes3"] = "- Em caso de dúvidas entre em contato conosco: xxxx@xxxx.com.br";
+// INSTRU��ES PARA O CAIXA
+$dadosboleto["instrucoes1"] = "- Sr. Caixa, cobrar multa de 2% ap�s o vencimento";
+$dadosboleto["instrucoes2"] = "- Receber at� 10 dias ap�s o vencimento";
+$dadosboleto["instrucoes3"] = "- Em caso de d�vidas entre em contato conosco: xxxx@xxxx.com.br";
 $dadosboleto["instrucoes4"] = "&nbsp; Emitido pelo sistema Projeto BoletoPhp - www.boletophp.com.br";
 
 // DADOS OPCIONAIS DE ACORDO COM O BANCO OU CLIENTE
-$dadosboleto["quantidade"] = "1";
-$dadosboleto["valor_unitario"] = "1";
+$dadosboleto["quantidade"] = "10";
+$dadosboleto["valor_unitario"] = "10";
 $dadosboleto["aceite"] = "N";		
 $dadosboleto["especie"] = "R$";
 $dadosboleto["especie_doc"] = "DM";
 
 
-// ---------------------- DADOS FIXOS DE CONFIGURAÇÃO DO SEU BOLETO --------------- //
+// ---------------------- DADOS FIXOS DE CONFIGURA��O DO SEU BOLETO --------------- //
 // DADOS ESPECIFICOS DO SICOOB
 $dadosboleto["modalidade_cobranca"] = "02";
 $dadosboleto["numero_parcela"] = "001";
@@ -91,17 +121,20 @@ $dadosboleto["agencia"] = "4340"; // Num da agencia, sem digito
 $dadosboleto["conta"] = "44362"; 	// Num da conta, sem digito
 
 // DADOS PERSONALIZADOS - SICOOB
-$dadosboleto["convenio"] = "0";  // Num do convênio - REGRA: No máximo 7 dígitos
+$dadosboleto["convenio"] = "993379";  // Num do conv�nio - REGRA: No m�ximo 10 d�gitos
 $dadosboleto["carteira"] = "1";
 
 // SEUS DADOS
-$dadosboleto["identificacao"] = "BoletoPhp - Código Aberto de Sistema de Boletos";
+$dadosboleto["identificacao"] = "BoletoPhp - C�digo Aberto de Sistema de Boletos";
 $dadosboleto["cpf_cnpj"] = "";
-$dadosboleto["endereco"] = "Coloque o endereço da sua empresa aqui";
+$dadosboleto["endereco"] = "Coloque o endere�o da sua empresa aqui";
 $dadosboleto["cidade_uf"] = "Cidade / Estado";
-$dadosboleto["cedente"] = "Coloque a Razão Social da sua empresa aqui";
+$dadosboleto["cedente"] = "Coloque a Raz�o Social da sua empresa aqui";
 
-// NÃO ALTERAR!
+$Dv = dv($dadosboleto["agencia"], $dadosboleto["convenio"], $NossoNumero);
+$dadosboleto["nosso_numero"] = $NossoNumero . $Dv;
+
+// N�O ALTERAR!
 include("include/funcoes_bancoob.php");
 include("include/layout_bancoob.php");
 ?>
