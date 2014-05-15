@@ -21,6 +21,9 @@ function dv($coop, $cliente, $NossoNumero){
     }
     
     $dv = 11 - ($total % 11);
+
+	if ($dv > 9) {$dv = 0;}
+
     /*
     if($dv == 1){
         $dv = 0;
@@ -77,7 +80,7 @@ $data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  /
 $valor_cobrado = "1,00"; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
 $valor_cobrado = str_replace(",", ".",$valor_cobrado);
 $valor_boleto=number_format($valor_cobrado+$taxa_boleto, 2, ',', '');
-$NossoNumero = "123"; // Coloque o seu n�mero, at� 10 d�gitos
+$NossoNumero = "5"; // Coloque o seu n�mero, at� 10 d�gitos
 
 //$dadosboleto["nosso_numero"] = "1";  // At� 8 digitos, sendo os 2 primeiros o ano atual (Ex.: 08 se for 2008)
 $dadosboleto["numero_documento"] = "1";	// Num do pedido ou do documento
@@ -87,24 +90,25 @@ $dadosboleto["data_processamento"] = date("d/m/Y"); // Data de processamento do 
 $dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com v�rgula e sempre com duas casas depois da virgula
 
 // DADOS DO SEU CLIENTE
-$dadosboleto["sacado"] = "Nome do seu Cliente";
-$dadosboleto["endereco1"] = "Endere�o do seu Cliente";
-$dadosboleto["endereco2"] = "Cidade - Estado -  CEP: 00000-000";
+$dadosboleto["sacado"] = "Cliente Teste Homologacao 1";
+$dadosboleto["endereco1"] = "Rua teste, 1000";
+$dadosboleto["endereco2"] = "Maringa - Parana -  CEP 86755-000";
 
 // INFORMACOES PARA O CLIENTE
-$dadosboleto["demonstrativo1"] = "Pagamento de Compra na Loja Nonononono";
-$dadosboleto["demonstrativo2"] = "Mensalidade referente a nonon nonooon nononon<br>Taxa banc�ria - R$ ".number_format($taxa_boleto, 2, ',', '');
-$dadosboleto["demonstrativo3"] = "BoletoPhp - http://www.boletophp.com.br";
+$dadosboleto["demonstrativo1"] = "";
+$dadosboleto["demonstrativo2"] = "";
+//$dadosboleto["demonstrativo2"] = "Mensalidade referente a nonon nonooon nononon<br>Taxa bancaria - R$ ".number_format($taxa_boleto, 2, ',', '');
+$dadosboleto["demonstrativo3"] = "";
 
 // INSTRU��ES PARA O CAIXA
-$dadosboleto["instrucoes1"] = "- Sr. Caixa, cobrar multa de 2% ap�s o vencimento";
-$dadosboleto["instrucoes2"] = "- Receber at� 10 dias ap�s o vencimento";
-$dadosboleto["instrucoes3"] = "- Em caso de d�vidas entre em contato conosco: xxxx@xxxx.com.br";
-$dadosboleto["instrucoes4"] = "&nbsp; Emitido pelo sistema Projeto BoletoPhp - www.boletophp.com.br";
+$dadosboleto["instrucoes1"] = "- Sr. Caixa, nao receber apos o vencimento";
+$dadosboleto["instrucoes2"] = "- Pagavel preferencialmente nas agencias do Banco Sicoob";
+$dadosboleto["instrucoes3"] = "- Em caso de duvidas entre em contato conosco: contato@anguloweb.com.br";
+$dadosboleto["instrucoes4"] = "";
 
 // DADOS OPCIONAIS DE ACORDO COM O BANCO OU CLIENTE
-$dadosboleto["quantidade"] = "10";
-$dadosboleto["valor_unitario"] = "10";
+$dadosboleto["quantidade"] = "1";
+$dadosboleto["valor_unitario"] = "";
 $dadosboleto["aceite"] = "N";		
 $dadosboleto["especie"] = "R$";
 $dadosboleto["especie_doc"] = "DM";
@@ -125,11 +129,11 @@ $dadosboleto["convenio"] = "993379";  // Num do conv�nio - REGRA: No m�ximo 
 $dadosboleto["carteira"] = "1";
 
 // SEUS DADOS
-$dadosboleto["identificacao"] = "BoletoPhp - C�digo Aberto de Sistema de Boletos";
-$dadosboleto["cpf_cnpj"] = "";
-$dadosboleto["endereco"] = "Coloque o endere�o da sua empresa aqui";
-$dadosboleto["cidade_uf"] = "Cidade / Estado";
-$dadosboleto["cedente"] = "Coloque a Raz�o Social da sua empresa aqui";
+$dadosboleto["identificacao"] = "AnguloWeb Solucoes para Internet";
+$dadosboleto["cpf_cnpj"] = "14.942.261/0001-35";
+$dadosboleto["endereco"] = "Rua Delmiro Costa de Oliveira, 46";
+$dadosboleto["cidade_uf"] = "Angulo / PR";
+$dadosboleto["cedente"] = "Everton Rodrigo da Silva 06678233956";
 
 $Dv = dv($dadosboleto["agencia"], $dadosboleto["convenio"], $NossoNumero);
 $dadosboleto["nosso_numero"] = $NossoNumero . $Dv;
