@@ -14,7 +14,7 @@
 
 // +----------------------------------------------------------------------+
 // | Originado do Projeto BBBoletoFree que tiveram colaborações de Daniel |
-// | William Schultz e Leandro Maniezo que por sua vez foi derivado do	  |
+// | William Schultz e Leandro Maniezo que por sua vez foi derivado do    |
 // | PHPBoleto de João Prado Maia e Pablo Martins F. Costa                |
 // |                                                                      |
 // | Se vc quer colaborar, nos ajude a desenvolver p/ os demais bancos :-)|
@@ -547,6 +547,14 @@ div.barcode {
 		</tbody>
 		</table>
 
+		<?php
+			$num_nn = substr($dadosboleto["nosso_numero"],0,7);
+			$num_ld = substr($dadosboleto["nosso_numero"],7,1);
+
+			$new_nossonumero = $num_nn."-".$num_ld;	
+		?>
+
+
 		<table class="line" cellspacing="0" cellpadding="0">
 		<tbody>
 		<tr class="titulos">
@@ -562,7 +570,7 @@ div.barcode {
 			<td class="ag_cod_cedente"><?php echo $dadosboleto["agencia_codigo"]?> &nbsp;</td>
 			<td class="especie"><?php echo $dadosboleto["especie"]?>&nbsp;</td>
 			<TD class="qtd"><?php echo $dadosboleto["quantidade"]?>&nbsp;</td>
-			<TD class="nosso_numero"><?php echo $dadosboleto["nosso_numero"]?>&nbsp;</td>
+			<TD class="nosso_numero"><?php echo $new_nossonumero?>&nbsp;</td>
 		</tr>
 		</tbody>
 		</table>
@@ -682,7 +690,7 @@ div.barcode {
 			<td class="especie_doc"><?php echo $dadosboleto["especie_doc"]?></td>
 			<td class="aceite"><?php echo $dadosboleto["aceite"]?></td>
 			<td class="data_process"><?php echo $dadosboleto["data_processamento"]?></td>
-			<td class="nosso_numero2"><?php echo $dadosboleto["nosso_numero"]?></td>
+			<td class="nosso_numero2"><?php echo $new_nossonumero?></td>
 		</tr>
 		</tbody>
 		</table>
