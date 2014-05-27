@@ -3,6 +3,7 @@ error_reporting(0);
 session_start();
 $access_control = "549ugh4gre98h943";
 $pag = $_GET["pag"];
+
 include_once "controle/valida.php";
 include_once "controle/db.php";
 include_once "controle/config.php";
@@ -17,6 +18,26 @@ include_once "classe/classe_empresa.php";
 
 if($_GET["sair"] == 1){
     logout();
+}
+
+if($_POST["btn_logar"] == "Logar"){
+    if($_POST["tp_usuario"] == "adm"){
+        
+        if(!login()){
+            echo "<script>alert('Falha no login')</script>";
+        }else{
+            echo "<script>location.href='index.php?pag='</script>";
+        }
+        
+    }else{
+        
+        if(!cliente_login()){
+            echo "<script>alert('Falha no login do cliente')</script>";
+        }else{
+            echo "<script>location.href='?pag='</script>";
+        }
+        
+    }
 }
 
 function login(){

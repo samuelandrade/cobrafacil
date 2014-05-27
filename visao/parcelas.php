@@ -8,7 +8,7 @@ include_once "controle/controle_parcela.php";
 <br>
 <form action="?pag=parcelas" method="post" id="form_mostra_status" name="form_mostra_status">
     Status
-    <select name="mostra_status" onChange="mostra_status();" onclick="submete()">
+    <select name="mostra_status" onChange="mostra_status();" onselect="submete()">
         <option value="4" <?php if($mostra_status == 4){echo "selected";} ?>>Pendente e Atrasado</option>
         <option value="2" <?php if($mostra_status == 2){echo "selected";} ?>>Pendente</option>
         <option value="3" <?php if($mostra_status == 3){echo "selected";} ?>>Atrasado</option>
