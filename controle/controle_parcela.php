@@ -56,7 +56,6 @@ if($_POST["btn_salvar"] == "Salvar"){
     }
     
     if($erro == 0){
-        
         if(geraParcela($parcelas)){
             echo "
             <script>
@@ -94,6 +93,18 @@ if($_POST["btn_salvar_transacao"] == "Salvar"){
             if(!$transacao->set_dt_pagamento(date("Y-m-d"))){ $erro = 1; }
         }
     }
+    
+    $boleto = new boleto();
+    $boleto->carregar($transacao->get_id_boleto());
+    $nosso_numero = $boleto->get_nosso_numero();
+    $transacao->set_nosso_numero($nosso_numero);
+
+    $nosso_numero++;
+    $boleto->set_nosso_numero($nosso_numero);
+    if(!$boleto->salvar()){
+        $erro = 1;
+    }
+    unset($boleto);
     
     if($erro == 0){
         if($transacao->salvar()){
@@ -138,6 +149,10 @@ function geraParcela($parcelas){
 
 function geraParcelaCliente($parcelas){
     for($i = 0; $i < $parcelas->get_quantidade();$i++){
+        $boleto = new boleto();
+        $boleto->carregar($parcelas->get_id_boleto());
+        $nosso_numero = $boleto->get_nosso_numero();
+        
         $n = $i * 30;
         $dt_vencimento = soma_data($n, $parcelas->get_dt_vencimento());
         $transacao = new transacao();
@@ -149,10 +164,19 @@ function geraParcelaCliente($parcelas){
         $transacao->set_multa($parcelas->get_multa());
         $transacao->set_juro($parcelas->get_juro());
         $transacao->set_dt_vencimento($dt_vencimento);
+        $transacao->set_nosso_numero($nosso_numero);
         
+        $nosso_numero++;
+        $boleto->set_nosso_numero($nosso_numero);
+        if(!$boleto->salvar()){
+            return 0;
+        }
+        unset($boleto);
+        echo "E";
         if(!$transacao->salvar()){
             return 0;
         }
+        unset($transacao);
     }
     
     return 1;

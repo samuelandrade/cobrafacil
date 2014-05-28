@@ -4,7 +4,8 @@ class transacao{
         private $id_empresa;
         private $id_boleto;
 	private $id_cliente;
-	private $valor;
+        private $nosso_numero;
+        private $valor;
 	private $dt_vencimento;
 	private $multa;
 	private $juro;
@@ -16,6 +17,7 @@ class transacao{
                 $this->id_empresa = NULL;
                 $this->id_boleto = NULL;
 		$this->id_cliente = NULL;
+                $this->nosso_numero = NULL;
 		$this->valor = NULL;
 		$this->dt_vencimento = NULL;
 		$this->multa = NULL;
@@ -36,7 +38,10 @@ class transacao{
 	public function get_id_cliente(){
 		return $this->id_cliente;
 	}
-	public function get_valor(){
+	public function get_nosso_numero(){
+		return $this->nosso_numero;
+	}
+        public function get_valor(){
 		return $this->valor;
 	}
 	public function get_dt_vencimento(){
@@ -98,6 +103,15 @@ class transacao{
                 }
         }
 
+        public function set_nosso_numero($nosso_numero){
+		if(valida::numero($nosso_numero)){
+                    $this->nosso_numero = $nosso_numero;
+                    return 1;
+		}else{
+                    return 0;
+                }
+        }
+        
 	public function set_valor($valor){
 		if(valida::float($valor)){
                     $this->valor = $valor;
@@ -140,7 +154,7 @@ class transacao{
 
 	public function set_dt_pagamento($dt_pagamento){
 		if(valida::data($dt_pagamento)){
-                    if(substr($dt_vencimento, 2, 1) == '/' && substr($dt_vencimento, 5, 1) == '/'){
+                    if(substr($dt_pagamento, 2, 1) == '/' && substr($dt_pagamento, 5, 1) == '/'){
                         $this->dt_pagamento = data_sql($dt_pagamento);
                     }else{
                         $this->dt_pagamento = $dt_pagamento;
@@ -163,7 +177,7 @@ class transacao{
 	
 	
 	public function salvar(){
-		$sql = "replace into transacao(id, id_empresa, id_boleto, id_cliente, valor, dt_vencimento, multa, juro, dt_pagamento, valor_pago) values('".$this->id."', '".$this->id_empresa."', '".$this->id_boleto."', '".$this->id_cliente."', '".$this->valor."', '".$this->dt_vencimento."', '".$this->multa."', '".$this->juro."', '".$this->dt_pagamento."', '".$this->valor_pago."')";
+		$sql = "replace into transacao(id, id_empresa, id_boleto, id_cliente, nosso_numero, valor, dt_vencimento, multa, juro, dt_pagamento, valor_pago) values('".$this->id."', '".$this->id_empresa."', '".$this->id_boleto."', '".$this->id_cliente."', '".$this->nosso_numero."', '".$this->valor."', '".$this->dt_vencimento."', '".$this->multa."', '".$this->juro."', '".$this->dt_pagamento."', '".$this->valor_pago."')";
 
 		$db = new db(config::$driver);
  		$con = $db->conecta();
@@ -186,7 +200,8 @@ class transacao{
                 $this->id_empresa = $transacao["id_empresa"];
                 $this->id_boleto = $transacao["id_boleto"];
 		$this->id_cliente = $transacao["id_cliente"];
-		$this->valor = $transacao["valor"];
+		$this->nosso_numero = $transacao["nosso_numero"];
+                $this->valor = $transacao["valor"];
 		$this->dt_vencimento = $transacao["dt_vencimento"];
 		$this->multa = $transacao["multa"];
 		$this->juro = $transacao["juro"];

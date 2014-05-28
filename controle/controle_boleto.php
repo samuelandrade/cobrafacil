@@ -9,25 +9,27 @@ if(valida::numero($_GET["id"])){
 
 if($_POST["btn_salvar"] == "Salvar"){
     $erro = 0;
+    $erro_msg = NULL;
     
     $boleto->set_id_empresa($_SESSION["cf_id_empresa"]);
-    if(!$boleto->set_titulo($_POST["titulo"])){ $erro = 1; }
-    if(!$boleto->set_banco($_POST["banco"])){ $erro = 1; }
-    if(!$boleto->set_prazo_pagamento($_POST["prazo_pagamento"])){ $erro = 1; }
-    if(!$boleto->set_taxa_boleto($_POST["taxa_boleto"])){ $erro = 1; }
-    if(!$boleto->set_agencia($_POST["agencia"])){ $erro = 1; }
-    if(!$boleto->set_conta($_POST["conta"])){ $erro = 1; }
-    if(!$boleto->set_conta_dv($_POST["conta_dv"])){ $erro = 1; }
-    if(!$boleto->set_convenio($_POST["convenio"])){ $erro = 1; }
-    if(!$boleto->set_instrucoes1($_POST["instrucoes1"])){ $erro = 1; }
-    if(!$boleto->set_instrucoes2($_POST["instrucoes2"])){ $erro = 1; }
-    if(!$boleto->set_instrucoes3($_POST["instrucoes3"])){ $erro = 1; }
-    if(!$boleto->set_instrucoes4($_POST["instrucoes4"])){ $erro = 1; }
-    if(!$boleto->set_identificacao($_POST["identificacao"])){ $erro = 1; }
-    if(!$boleto->set_cpf_cnpj($_POST["cpf_cnpj"])){ $erro = 1; }
-    if(!$boleto->set_endereco($_POST["endereco"])){ $erro = 1; }
-    if(!$boleto->set_cidade($_POST["cidade"])){ $erro = 1; }
-    if(!$boleto->set_uf($_POST["estado"])){ $erro = 1; }
+    if(!$boleto->set_titulo(         $_POST["titulo"]         )){ $erro = 1; $erro_msg["titulo"]          = "Titulo inválido"; }
+    if(!$boleto->set_banco(          $_POST["banco"]          )){ $erro = 1; $erro_msg["banco"]           = "Banco inválido"; }
+    if(!$boleto->set_prazo_pagamento($_POST["prazo_pagamento"])){ $erro = 1; $erro_msg["prazo_pagamento"] = "Numero inválido"; }
+    if(!$boleto->set_taxa_boleto(    $_POST["taxa_boleto"]    )){ $erro = 1; $erro_msg["taxa_boleto"]     = "Taxa inválida"; }
+    if(!$boleto->set_nosso_numero(   $_POST["nosso_numero"]   )){ $erro = 1; $erro_msg["nosso_numero"]    = "Nosso número inválido"; }
+    if(!$boleto->set_agencia(        $_POST["agencia"]        )){ $erro = 1; $erro_msg["agencia"]         = "Agencia inválida"; }
+    if(!$boleto->set_conta(          $_POST["conta"]          )){ $erro = 1; $erro_msg["conta"]           = "Conta inválida"; }
+    if(!$boleto->set_conta_dv(       $_POST["conta_dv"]       )){ $erro = 1; $erro_msg["conta_dv"]        = "Digito inválido"; }
+    if(!$boleto->set_convenio(       $_POST["convenio"]       )){ $erro = 1; $erro_msg["convenio"]        = "Convenio inválido"; }
+    if(!$boleto->set_instrucoes1(    $_POST["instrucoes1"]    )){ $erro = 1; $erro_msg["instrucoes1"]     = "Instrução inválida"; }
+    if(!$boleto->set_instrucoes2(    $_POST["instrucoes2"]    )){ $erro = 1; $erro_msg["instrucoes2"]     = "Instrução inválida"; }
+    if(!$boleto->set_instrucoes3(    $_POST["instrucoes3"]    )){ $erro = 1; $erro_msg["instrucoes3"]     = "Instrução inválida"; }
+    if(!$boleto->set_instrucoes4(    $_POST["instrucoes4"]    )){ $erro = 1; $erro_msg["instrucoes4"]     = "Instrução inválida"; }
+    if(!$boleto->set_identificacao(  $_POST["identificacao"]  )){ $erro = 1; $erro_msg["identificacao"]   = "Identificação inválida"; }
+    if(!$boleto->set_cpf_cnpj(       $_POST["cpf_cnpj"]       )){ $erro = 1; $erro_msg["cpf_cnpj"]        = "CNPJ inválido"; }
+    if(!$boleto->set_endereco(       $_POST["endereco"]       )){ $erro = 1; $erro_msg["endereco"]        = "Endereço inválido"; }
+    if(!$boleto->set_cidade(         $_POST["cidade"]         )){ $erro = 1; $erro_msg["cidade"]          = "Cidade inválida"; }
+    if(!$boleto->set_uf(             $_POST["estado"]         )){ $erro = 1; $erro_msg["estado"]          = "Estado inválido"; }
 
     if($erro == 0){
         if($boleto->salvar()){

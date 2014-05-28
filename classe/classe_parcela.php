@@ -14,11 +14,11 @@ class parcela{
 		$this->id_boleto = NULL;
                 $this->id_cliente = NULL;
                 $this->id_grupo = NULL;
-                $this->ch_cg = NULL;
+                $this->ch_cg = 2;
 		$this->valor = NULL;
-		$this->multa = NULL;
-		$this->juro = NULL;
-		$this->quantidade = NULL;
+		$this->multa = 0;
+		$this->juro = 0;
+		$this->quantidade = 1;
 		$this->dt_vencimento = NULL;
 	}
 

@@ -13,6 +13,8 @@
         <link rel="stylesheet" href="css/estilo.css" type="text/css" media="screen">
         <script type="text/javascript" src="js/estado_cidade.js" ></script>
         <script type="text/javascript" src="js/javascript.js" ></script>
+        <script type="text/javascript" src="js/aw_validacao.js" ></script>
+        <script type="text/javascript" src="js/valida.js" ></script>
     </head>
     <body>
         <div id="center">

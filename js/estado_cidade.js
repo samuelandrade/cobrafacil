@@ -5697,10 +5697,10 @@ function show_city( esta, cidade ){
     //estado = esta;
    
     if(esta == ''){
-        cid += "<select name='cidade'><option value=''> -- Selecione a cidade -- </option></select>";
+        cid += "<select name='cidade' id='cidade' onBlur=\"valida_est_cid('cidade')\"><option value=''> -- Selecione a cidade -- </option></select>";
     }else{
         var i = 0;
-        cid += "<select name='cidade'><option value=''> -- Selecione a cidade -- </option>";
+        cid += "<select name='cidade' id='cidade' onBlur=\"valida_est_cid('cidade')\"><option value=''> -- Selecione a cidade -- </option>";
         while(vet_cidade[i] != ''){
             cid += "<option value='"+vet_cidade[i]+"'";
             if(cidade == vet_cidade[i]){ cid += " selected"; }
@@ -5713,7 +5713,7 @@ function show_city( esta, cidade ){
 }
 
 function escreve_estado(est){
-    var e = "<label><span>*</span> Estado</label><select name='estado' onChange='show_city(this.value);'><option value=''> -- Selecione o estado -- </option>";
+    var e = "<label><span>*</span> Estado</label><select name='estado' id='estado' onChange='show_city(this.value);' onBlur=\"valida_est_cid('estado')\"><option value=''> -- Selecione o estado -- </option>";
     for(i = 0; i < 27; i++){
         e += "<option value='"+vet_sigla[i]+"'";
         if(est == vet_sigla[i]){ e += " selected"; }

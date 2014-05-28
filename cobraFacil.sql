@@ -42,9 +42,9 @@ create table log(
 create table transacao(
     id int not null auto_increment,
     id_empresa int not null,
-    id_sistema int,
     id_boleto int not null,
     id_cliente int not null,
+    nosso_numero int(17) not null,
     valor float not null,
     dt_vencimento date not null,
     multa float not null,

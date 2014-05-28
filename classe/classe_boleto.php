@@ -6,6 +6,7 @@ class boleto{
 	private $banco;
 	private $prazo_pagamento;
 	private $taxa_boleto;
+        private $nosso_numero;
 	private $instrucoes1;
 	private $instrucoes2;
 	private $instrucoes3;
@@ -27,6 +28,7 @@ class boleto{
 		$this->banco = NULL;
 		$this->prazo_pagamento = NULL;
 		$this->taxa_boleto = NULL;
+                $this->nosso_numero = NULL;
 		$this->instrucoes1 = NULL;
 		$this->instrucoes2 = NULL;
 		$this->instrucoes3 = NULL;
@@ -63,6 +65,9 @@ class boleto{
 	}
 	public function get_taxa_boleto(){
 		return $this->taxa_boleto;
+	}
+        public function get_nosso_numero(){
+		return $this->nosso_numero;
 	}
 	public function get_instrucoes1(){
             if($this->instrucoes1){
@@ -168,6 +173,15 @@ class boleto{
                 }
         }
 
+        public function set_nosso_numero($nosso_numero){
+		if($nosso_numero != '' && valida::numero($nosso_numero)){
+                    $this->nosso_numero = $nosso_numero;
+                    return 1;
+		}else{
+                    return 0;
+                }
+        }
+        
 	public function set_instrucoes1($instrucoes1){
                 $instrucoes1 = addslashes($instrucoes1);
                 $this->instrucoes1 = $instrucoes1;
@@ -283,9 +297,14 @@ class boleto{
 	
 	
 	public function salvar(){
-		//$sql = "replace into boleto(id, titulo, banco, prazo_pagamento, taxa_boleto, instrucoes1, instrucoes2, instrucoes3, instrucoes4, agencia, conta, conta_dv, convenio, id_instituicao) values('".$this->id."', '".$this->titulo."', '".$this->banco."', '".$this->prazo_pagamento."', '".$this->taxa_boleto."', '".$this->instrucoes1."', '".$this->instrucoes2."', '".$this->instrucoes3."', '".$this->instrucoes4."', '".$this->agencia."', '".$this->conta."', '".$this->conta_dv."', '".$this->convenio."', '".$this->id_instituicao."')";
-                $sql = "replace into boleto(id, id_empresa, titulo, banco, prazo_pagamento, taxa_boleto, instrucoes1, instrucoes2, instrucoes3, instrucoes4, agencia, conta, conta_dv, convenio, identificacao, cpf_cnpj, endereco, cidade, uf) values('".$this->id."', '".$this->id_empresa."', '".$this->titulo."', '".$this->banco."', '".$this->prazo_pagamento."', '".$this->taxa_boleto."', '".$this->instrucoes1."', '".$this->instrucoes2."', '".$this->instrucoes3."', '".$this->instrucoes4."', '".$this->agencia."', '".$this->conta."', '".$this->conta_dv."', '".$this->convenio."', '".$this->identificacao."', '".$this->cpf_cnpj."', '".$this->endereco."', '".$this->cidade."', '".$this->uf."')";
-
+                //$sql = "replace into boleto(id, id_empresa, titulo, banco, prazo_pagamento, taxa_boleto, nosso_numero, instrucoes1, instrucoes2, instrucoes3, instrucoes4, agencia, conta, conta_dv, convenio, identificacao, cpf_cnpj, endereco, cidade, uf) values('".$this->id."', '".$this->id_empresa."', '".$this->titulo."', '".$this->banco."', '".$this->prazo_pagamento."', '".$this->taxa_boleto."', '".$this->nosso_numero."', '".$this->instrucoes1."', '".$this->instrucoes2."', '".$this->instrucoes3."', '".$this->instrucoes4."', '".$this->agencia."', '".$this->conta."', '".$this->conta_dv."', '".$this->convenio."', '".$this->identificacao."', '".$this->cpf_cnpj."', '".$this->endereco."', '".$this->cidade."', '".$this->uf."')";
+                if($this->id){
+                    $sql = "update boleto set id = '".$this->id."', id_empresa = '".$this->id_empresa."', titulo = '".$this->titulo."', banco = '".$this->banco."', prazo_pagamento = '".$this->prazo_pagamento."', taxa_boleto = '".$this->taxa_boleto."', nosso_numero = '".$this->nosso_numero."', instrucoes1 = '".$this->instrucoes1."', instrucoes2 = '".$this->instrucoes2."', instrucoes3 = '".$this->instrucoes3."', instrucoes4 = '".$this->instrucoes4."', agencia = '".$this->agencia."', conta = '".$this->conta."', conta_dv = '".$this->conta_dv."', convenio = '".$this->convenio."', identificacao = '".$this->identificacao."', cpf_cnpj = '".$this->cpf_cnpj."', endereco = '".$this->endereco."', cidade = '".$this->cidade."', uf = '".$this->uf."' where id = '$this->id'";
+                }else{
+                    $sql = "insert into boleto(id_empresa, titulo, banco, prazo_pagamento, taxa_boleto, nosso_numero, instrucoes1, instrucoes2, instrucoes3, instrucoes4, agencia, conta, conta_dv, convenio, identificacao, cpf_cnpj, endereco, cidade, uf) "
+                         . "values('".$this->id_empresa."', '".$this->titulo."', '".$this->banco."', '".$this->prazo_pagamento."', '".$this->taxa_boleto."', '".$this->nosso_numero."', '".$this->instrucoes1."', '".$this->instrucoes2."', '".$this->instrucoes3."', '".$this->instrucoes4."', '".$this->agencia."', '".$this->conta."', '".$this->conta_dv."', '".$this->convenio."', '".$this->identificacao."', '".$this->cpf_cnpj."', '".$this->endereco."', '".$this->cidade."', '".$this->uf."')";
+                }
+echo $sql;
 		$db = new db(config::$driver);
  		$con = $db->conecta();
 		$res = $db->query($sql, $con);
@@ -304,10 +323,12 @@ class boleto{
 		$boleto = $db->fetch_array($res);
 
 		$this->id = $boleto["id"];
+                $this->id_empresa = $boleto["id_empresa"];
 		$this->titulo = $boleto["titulo"];
 		$this->banco = $boleto["banco"];
 		$this->prazo_pagamento = $boleto["prazo_pagamento"];
 		$this->taxa_boleto = $boleto["taxa_boleto"];
+                $this->nosso_numero = $boleto["nosso_numero"];
 		$this->instrucoes1 = $boleto["instrucoes1"];
 		$this->instrucoes2 = $boleto["instrucoes2"];
 		$this->instrucoes3 = $boleto["instrucoes3"];
