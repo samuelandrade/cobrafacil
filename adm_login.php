@@ -25,7 +25,7 @@
                 <form id="form_login" action="" method="post">
                     <input type="hidden" name="tp_usuario" value="adm">
                     <div>
-                        <h1>ÁREA RESTRITA</h1>
+                        <h1>ÁREA RESTRITA (ADM)</h1>
                     </div>
                     <div>
                         <label>Login: </label>
