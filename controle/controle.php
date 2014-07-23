@@ -321,7 +321,7 @@ function nomeEmpresa(){
     if($_SESSION["cf_empresa"] != ''){
         echo $_SESSION["cf_empresa"];
     }else{
-        echo "Sistema Gestor de Micronegocio";
+        echo "Sistema de cobranças - CobraFacil";
     }
 }
 
@@ -364,4 +364,55 @@ function ajustaLogo(){
     }
     
     return "style='$tam: 100%; $margem'";
+}
+
+function recupera_senha(){
+    $erro = 0;
+    
+    if(valida::cpf($_POST["cpf"])){ $cpf = $_POST["cpf"]; }else{ $erro = 1; }
+    if(valida::email($_POST["email"])){ $email = $_POST["email"]; }else{ $erro = 1; }
+    
+    if($erro == 0){
+        $sql = "SELECT * FROM cliente WHERE cpf = '$cpf'";
+
+        $db = new db(config::$driver);
+        $con = $db->conecta();
+        $result = $db->query($sql, $con);
+        $db->close($con);
+        $inscricao = $db->fetch_array($result);
+
+        if($email == $inscricao["email_1"] || $email == $inscricao["email_2"]){
+            $assunto = "Recuperação de senha - ".$evento->get_titulo();
+            $mensagem = "Olá ".$inscricao["nome"].",
+
+Seus dados de acesso ao evento ".$evento->get_titulo()." são:
+
+Login: ".$inscricao["cpf"]."
+Senha: ".$inscricao["senha"]."
+
+http://eventos.anguloweb.com.br/?evento=".$evento->get_id();
+
+            if(mailer($email, $assunto, $mensagem, utf8_decode($evento->get_titulo()), "contato@anguloweb.com.br")){
+                echo "
+                <script>
+                    alert('Sua senha foi enviada para seu e-mail');
+                    location.href='?evento=".$evento->get_id()."';
+                </script>
+                ";
+                return 0;
+            }else{
+                echo "<script>alert('Falha ao enviar o e-mail')</script>";
+                return 0;
+            }
+            
+        }else{
+            $erro = 1;
+        }
+    }
+    
+    if($erro == 1){
+        echo "<script>alert('Preencha todos os campos corretamente')</script>";
+        return 0;
+    }
+    
 }

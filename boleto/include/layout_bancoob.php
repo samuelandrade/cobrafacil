@@ -494,7 +494,7 @@ div.barcode {
 <body>
 
 <div id="container">
-
+<!--
 	<div id="instr_header">
 		<h1><?php echo $dadosboleto["identificacao"]; ?> <?php echo isset($dadosboleto["cpf_cnpj"]) ? $dadosboleto["cpf_cnpj"] : '' ?></h1>
 		<address><?php echo $dadosboleto["endereco"]; ?><br></address>
@@ -506,7 +506,7 @@ div.barcode {
   Use no lugar do <div id=""> caso queira imprimir sem o logotipo e instruções
   <div id="instructions">
  -->
-		
+	<!--	
 		<div id="instr_content">
 
 			<h2>Instru&ccedil;&otilde;es</h2>
@@ -528,7 +528,7 @@ div.barcode {
 			</li>
 			</ol>
 		</div>	<!-- id="instr_content" -->
-	</div>	<!-- id="instructions" -->
+	<!--</div>	<!-- id="instructions" -->
 	
 	<div id="boleto">
 		<div class="cut">

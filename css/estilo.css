@@ -31,10 +31,12 @@ fieldset{border-radius:10px;margin-bottom:15px}
 #header_login div{position:relative;top:-100px;font-size:45px;left:170px;font-weight:bold}
 #session_login{background:#FFF}
 #dv_administrador{float:right;margin-right:10px}
-#form_login{margin:100px 0 200px 320px;border:1px solid #aaa;background:#eee;padding:20px 20px 0 20px;width:280px;border-radius:20px}
+#rec_senha{margin-bottom:150px;position:relative;top:-50px;left:450px}
+#rec_senha a{color:blue}
+#form_login{margin:50px 0 0 320px;border:1px solid #aaa;background:#eee;padding:20px 20px 0 20px;width:280px;border-radius:20px}
 #form_login h1{margin:0;text-align:center}
 #form_login div{height:40px}
-#form_login div input[type="email"], #form_login div input[type="password"]{float:right;width:200px;height:20px;border:1px solid #AAA;border-radius:5px}
+#form_login div input[type="text"], #form_login div input[type="password"], #form_login div input[type="email"]{float:right;width:200px;height:20px;border:1px solid #AAA;border-radius:5px}
 #form_submit{background:#F5F5F5;border:1px solid #aaa;border-radius:5px}
 .form_busca{margin-bottom:10px}
 .form_busca input[type="text"]{background:#fff;border:1px solid #888;border-radius:10px;padding:3px 10px;width:500px}

@@ -34,6 +34,166 @@ if($mostra_status == ''){
     $mostra_status = 4;
 }
 
+/* --------------- ARQUIVO DE RETORNO ---------------- */
+$_SESSION["ret_cont"] = 0;
+if($_POST["btn_enviar"] == "Enviar"){
+    $boleto = new boleto();
+    
+    if($boleto->carregar($_POST["boleto"])){
+        echo "<div class='alerta'>";
+        
+        if($_FILES["arquivo"]["name"] != '' && $_FILES["arquivo"]["error"] == 0){
+            
+            $nome = $_SESSION["cf_id_empresa"].$_FILES["arquivo"]["name"];
+            if(move_uploaded_file($_FILES["arquivo"]["tmp_name"], "retorno/$nome")){
+                
+                
+                
+                // CHECA SE O BANCO É SICREDI (4)
+                if($boleto->get_banco() == 4){
+                    $arq = fopen("retorno/".$nome,"r");
+                    $linha = fgets($arq);
+                    
+                    //                           número da conta    com dígito verificador                                     CNPJ                                   num e nome do banco
+                    if(substr($linha, 26, 5) == $boleto->get_conta() && substr($linha, 31, 14) == $boleto->get_cnpj_clean() && substr($linha, 76, 13) == "748BANSICREDI"){
+                        $arquivo = substr($linha, 110, 7);
+                        $erro = 0;
+                        
+                        while($linha = fgets($arq)){
+                            if(substr($linha, 0, 1) == 1 && substr($linha, 108, 2) == "06"){
+                                $retorno = new retorno();
+
+                                $retorno->set_boleto($boleto->get_id());
+                                $retorno->set_arquivo($arquivo);
+                                $retorno->set_id_registro(substr($linha, 50, 5));
+                                $retorno->set_valor_documento(substr($linha, 152, 13));
+                                $retorno->set_valor_pago(substr($linha, 253, 13));
+                                $retorno->set_dt_pagamento(substr($linha, 328, 8));
+                                $retorno->set_multa(substr($linha, 266, 13));
+                                $retorno->set_desconto(substr($linha, 240, 13));
+
+                                if(!$retorno->salvar()){ $erro = 1; break; }
+
+                                unset($retorno);
+                            }
+                        }
+
+                        if($erro == 0){
+                            echo "Transação salva com sucesso!";
+                        }else{
+                            echo "Falha ao salvar a transação!";
+                        }
+                    }else{
+                        echo "Arquivo inválido!";
+                    }
+                }else{
+                    require_once("controle/retorno_boleto/RetornoBanco.php");
+                    require_once("controle/retorno_boleto/RetornoFactory.php");
+
+                    $cnab = RetornoFactory::getRetorno("retorno/".$nome, "linhaProcessada");
+                    $retorno = new RetornoBanco($cnab);
+                    $retorno->processar();
+                    
+                    
+                    for($i = 0; $i < $_SESSION["ret_cont"]; $i++){
+                        $erro = 0;
+                        if(valida::numero($_SESSION["retorno"][$i]['nosso_numero']) && valida::float($_SESSION["retorno"][$i]["valor"]) && valida::data($_SESSION["retorno"][$i]["data_ocorrencia"])){
+                            
+                            if($boleto->get_id()){
+                                
+                                $sql_select = "SELECT id FROM transacao WHERE id_boleto = '".$boleto->get_id()."' AND nosso_numero = '".$_SESSION["retorno"][$i]["nosso_numero"]."' AND id_empresa = '".$_SESSION["ce_id_empresa"]."'";
+                                $res_trans = $db->query($sql_trans, $con);
+                                $id_trans = $db->fetch_array($res_trans);
+                                $transacao = $id_trans[0];
+
+                                if($transacao != ''){
+                                    $sql_update = "UPDATE transacao SET valor_pago = '".$_SESSION["retorno"][$i]["valor"]."', data_pagamento = '".  data_sql($_SESSION["retorno"][$i]["data_ocorrencia"])."' WHERE id = '$transacao' AND id_empresa = '".$_SESSION["ce_id_empresa"]."'";
+                                    $db->query($sql_update, $con);
+                                }else{
+                                    $erro = 1;
+                                }
+                                
+                            }else{
+                                
+                                echo "Dados bancarios n&atilde;o localizados!<br>".
+                                "Banco: <b>".$_SESSION["retorno"][0]['banco_nome']."</b> ".
+                                //"Ag&ecirc;ncia: <b>".$_SESSION["retorno"][0]["agencia"]."</b> ". 
+                                "Conta: <b>".$_SESSION["retorno"][0]["conta"]."</b><br><br>\n";
+                                break;
+                                
+                            }
+                            
+                        }else{
+                            $erro = 1;
+                        }
+
+                        if($erro == 1){
+                            echo "Falha ao salvar: ".
+                            "Nosso N&uacute;mero <b>".$_SESSION["retorno"][$i]['nosso_numero']."</b> ".
+                            "Data <b>".$_SESSION["retorno"][$i]["data_ocorrencia"]."</b> ". 
+                            "Valor Pago <b>".$_SESSION["retorno"][$i]["valor"]."</b><br/>\n";
+                        }
+                    }
+                }
+                
+            }else{
+                echo "Erro ao processar o arquivo";
+            }
+            
+        }else{
+            echo "Sem arquivo";
+        }
+        
+        echo "</div>";
+    }else{
+        echo "<script>alert('Selecione o boleto!')</script>";
+    }
+}
+
+function linhaProcessada($self, $numLn, $vlinha) {
+    if($vlinha){
+        if($vlinha["registro"] == $self::DETALHE) {
+            $cont = $_SESSION["ret_cont"];
+            $cant = $_SESSION["ret_cont"] -1;
+            
+            if($_SESSION["retorno"][$cant]["nosso_numero"] != '' && $vlinha["nosso_numero"] == '' && $cont > 0){
+                $_SESSION["retorno"][$cant]["data_ocorrencia"] = $vlinha["data_ocorrencia"];
+
+                if($vlinha["valor_pago"]){
+                    $_SESSION["retorno"][$cant]["valor"] = $vlinha["valor_pago"];
+                }else{
+                    $_SESSION["retorno"][$cant]["valor"] = $vlinha["valor_recebido"];
+                }
+            }else{
+                $_SESSION["retorno"][$cont]["nosso_numero"] = $vlinha["nosso_numero"];
+                $_SESSION["retorno"][$cont]["data_ocorrencia"] = $vlinha["data_ocorrencia"];
+
+                if($vlinha["valor_pago"]){
+                    $_SESSION["retorno"][$cont]["valor"] = $vlinha["valor_pago"];
+                }else{
+                    $_SESSION["retorno"][$cont]["valor"] = $vlinha["valor_recebido"];
+                }
+
+                $_SESSION["ret_cont"]++;
+            }
+        }else if($vlinha["registro"] == 0){
+            switch($vlinha["banco"]){
+                // case com 18 caracteres
+                case "748BANSICREDI     ": $_SESSION["retorno"][0]["banco"] = 4; break;
+                default: $_SESSION["retorno"][0]["banco"] = 0; break;
+            }
+            
+            $_SESSION["retorno"][0]["banco_nome"] = $vlinha["banco"];
+            /*
+            $_SESSION["retorno"][0]["agencia"] = $vlinha["agencia_cedente"];
+            $_SESSION["retorno"][0]["conta"] = $vlinha["conta_cedente"];
+            */
+            $_SESSION["retorno"][0]["conta"] = $vlinha["agencia_cedente"].$vlinha["dv_agencia_cedente"];
+        }
+    }else{
+        echo "Tipo da linha n&atilde;o identificado<br/>\n";
+    }
+}
 
 
 /* --------------- GERA PARCELAS ---------------- */
@@ -337,4 +497,17 @@ function parcela_cliente($id){
     $result = $db->query($sql, $conexao);
     $cliente = $db->fetch_array($result);
     return $cliente[0];
+}
+
+function mostra_boleto_select(){
+    $sql = "SELECT id, titulo FROM boleto WHERE id_empresa = '".$_SESSION["cf_id_empresa"]."'";
+    
+    $db = new db(config::$driver);
+    $con = $db->conecta();
+    $result = $db->query($sql, $con);
+    
+    while($boleto = $db->fetch_array($result)){
+        echo "
+        <option value='".$boleto[0]."'>".$boleto[1]."</option>";
+    }
 }

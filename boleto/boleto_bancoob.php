@@ -75,15 +75,16 @@ function tamanho($numero, $tam){
 
 // DADOS DO BOLETO PARA O SEU CLIENTE
 $dias_de_prazo_para_pagamento = 15;
-$taxa_boleto = 2.00;
+$taxa_boleto = 0.00;
 $data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  // Prazo de X dias OU informe data: "13/04/2006"; 
-$valor_cobrado = "1,00"; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
+$valor_cobrado = "270,00"; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
 $valor_cobrado = str_replace(",", ".",$valor_cobrado);
 $valor_boleto=number_format($valor_cobrado+$taxa_boleto, 2, ',', '');
-$NossoNumero = "5"; // Coloque o seu n�mero, at� 10 d�gitos
+
+$NossoNumero = "11"; // Coloque o seu n�mero, at� 10 d�gitos
 
 //$dadosboleto["nosso_numero"] = "1";  // At� 8 digitos, sendo os 2 primeiros o ano atual (Ex.: 08 se for 2008)
-$dadosboleto["numero_documento"] = "1";	// Num do pedido ou do documento
+$dadosboleto["numero_documento"] = $NossoNumero;	// Num do pedido ou do documento
 $dadosboleto["data_vencimento"] = $data_venc; // Data de Vencimento do Boleto - REGRA: Formato DD/MM/AAAA
 $dadosboleto["data_documento"] = date("d/m/Y"); // Data de emiss�o do Boleto
 $dadosboleto["data_processamento"] = date("d/m/Y"); // Data de processamento do boleto (opcional)

@@ -119,7 +119,11 @@
                 
                     }
                 }else{
-                    include_once "visao/login.php";
+                    if($_GET["esq"] == 1){
+                        include_once "visao/rec_senha.php";
+                    }else{
+                        include_once "visao/login.php";
+                    }
                 }
                 ?>
             

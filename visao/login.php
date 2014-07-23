@@ -20,4 +20,7 @@
                         <input type="submit" name="btn_logar" value="Logar" id="form_submit">
                     </div>
                 </form>
+                <div id="rec_senha">
+                    <a href="?esq=1" title="Clique para recuperar sua senha">Esqueceu sua senha?</a>
+                </div>
             </section>

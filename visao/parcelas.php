@@ -33,3 +33,22 @@ include_once "controle/controle_parcela.php";
     </tr>
     <?=mostraTransacao($id_cliente, $mostra_status)?>
 </table>
+<br><br>
+<form action="" method="post" enctype="multipart/form-data" class="formulario">
+    <fieldset>
+        <legend>Arquivo de retorno</legend>
+        <div>
+            <label><span>*</span> Boleto: </label>
+            <select name="boleto" id="boleto" onBlur="valida('numero', this, 0, 'Boleto inválido')">
+                <option value=""> -- Selecione o boleto -- </option>
+                <?=mostra_boleto_select()?>
+            </select>
+        </div>
+        <div>
+            <label><span>*</span> Arquivo: </label>
+            <input type="file" name="arquivo">
+        </div>
+        
+        <button type="submit" name="btn_enviar" value="Enviar">Enviar</button>
+    </fieldset>
+</form>
